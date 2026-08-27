@@ -17,9 +17,15 @@
 
 ## 当前状态
 
-本仓库刚刚初始化，目前只有 `Plan.md`（架构设计文档）和本 README。`Plan.md` 中规划的目录结构（`00-Inbox/`、`01-Index/`、`10-Embedded/` … `90-Agent/`、`.knowledge/` 等）尚未创建，处于**引导搭建阶段**。
+`Plan.md` 已拆分为分阶段任务，见 [`Plans/README.md`](./Plans/README.md)。阶段 01（Vault 目录骨架、
+YAML frontmatter 规范、笔记模板）已完成；`90-Agent/` 下的规则文档（INDEX.md /
+KNOWLEDGE-RULES.md / TAXONOMY.md / DEVELOPMENT-RULES.md）尚待阶段 02 填充。
 
 ## 给人类和 Agent 的入口提示
 
 - 想了解整体设计，先读 [`Plan.md`](./Plan.md)。
+- 想知道当前进度和下一步该做什么，读 [`Plans/README.md`](./Plans/README.md)。
+- 日常阅读入口是 [`01-Index/Home.md`](./01-Index/Home.md)。
+- 新建知识笔记时，复制 [`90-Agent/Templates/Note-Template.md`](./90-Agent/Templates/Note-Template.md)，
+  YAML frontmatter 字段说明见 [`90-Agent/Templates/Frontmatter-Spec.md`](./90-Agent/Templates/Frontmatter-Spec.md)。
 - 后续 `90-Agent/INDEX.md` 建成后，Agent 执行任务前应优先读取该文件，而不是递归加载整个 Vault（原则见 `Plan.md` 的「Agent 知识读取原则」一节）。
