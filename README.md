@@ -17,9 +17,14 @@
 
 ## 当前状态
 
-`Plan.md` 已拆分为分阶段任务，见 [`Plans/README.md`](./Plans/README.md)。阶段 01～05 均已完成
-（Vault 骨架、`90-Agent/` 规则、Git 工作流、`kb` CLI、Notion 单向同步）；阶段 06（远期扩展：
-Embedding / Vector DB / MCP Server）明确保留为路线图，暂不执行。
+`Plan.md` 已拆分为分阶段任务，见 [`Plans/README.md`](./Plans/README.md)。阶段 01～06 全部完成
+（Vault 骨架、`90-Agent/` 规则、Git 工作流、`kb` CLI、Notion 单向同步、本地语义检索 +
+Knowledge MCP Server）。阶段 06 原本按设计要等"知识规模明显增长"才做，但用户主动要求提前
+执行，细节见 [`Plans/06-Future-Extensions.md`](./Plans/06-Future-Extensions.md)。`kb
+mcp-server` 已经注册进 Claude Code 和 Codex CLI（全局，用户级）。
+
+阶段 07（[`Plans/07-Session-End-Automation.md`](./Plans/07-Session-End-Automation.md)，
+会话结束自动整理知识 + 同步 Notion）已经建了计划文件，状态 `pending`，还没有实现。
 
 Notion 同步已经在真实工作区跑通：Database 建在「Knowledge知识库」页面下，设计细节见
 [`.knowledge/NOTION-SYNC.md`](./.knowledge/NOTION-SYNC.md)。目前 Vault 里还没有任何笔记把
@@ -34,4 +39,4 @@ Notion 同步已经在真实工作区跑通：Database 建在「Knowledge知识�
 - 新建知识笔记时，复制 [`90-Agent/Templates/Note-Template.md`](./90-Agent/Templates/Note-Template.md)，
   YAML frontmatter 字段说明见 [`90-Agent/Templates/Frontmatter-Spec.md`](./90-Agent/Templates/Frontmatter-Spec.md)。
 - Agent 执行任务前应优先读取 [`90-Agent/INDEX.md`](./90-Agent/INDEX.md)，而不是递归加载整个 Vault（原则见 `Plan.md` 的「Agent 知识读取原则」一节）。
-- 检索/整理知识优先用 `kb` CLI（`kb search` / `kb read` / `kb related` / `kb capture` / `kb curate` / `kb validate` / `kb status`），代码在 `/home/eric/Personal/KnowledgeEngine`，用法见该仓库的 README。
+- 检索/整理知识优先用 `kb` CLI（`kb search` / `kb semantic-search` / `kb read` / `kb related` / `kb capture` / `kb curate` / `kb validate` / `kb status`），代码在 `/home/eric/Personal/KnowledgeEngine`，用法见该仓库的 README。也可以通过 `kb mcp-server` 起的 Knowledge MCP Server 用标准 MCP 协议访问同一套能力。

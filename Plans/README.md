@@ -17,7 +17,8 @@
 | 03 | [03-Git-Workflow.md](03-Git-Workflow.md) | Vault 的 Git 版本控制规范 | 01 | done |
 | 04 | [04-Knowledge-Engine-CLI.md](04-Knowledge-Engine-CLI.md) | 独立的 `kb` CLI 骨架（本地检索，不含 Notion） | 01, 02 | done |
 | 05 | [05-Notion-Sync.md](05-Notion-Sync.md) | Notion Database 设计 + 单向同步机制 | 01, 02, 04 | done |
-| 06 | [06-Future-Extensions.md](06-Future-Extensions.md) | Vector DB / Embedding / Knowledge MCP Server（远期路线图，非近期执行范围） | 01–05 | pending |
+| 06 | [06-Future-Extensions.md](06-Future-Extensions.md) | 本地语义检索（Embedding + Rerank）+ Knowledge MCP Server（用户主动要求提前做，非规模驱动） | 01–05 | done |
+| 07 | [07-Session-End-Automation.md](07-Session-End-Automation.md) | 会话一开始就问"这次要不要自动保存知识"，只管这一次，结束时按当次回答执行 | 02, 03, 04, 05 | pending |
 
 ## Status 含义
 
@@ -32,4 +33,8 @@
 01 是地基：没有目录结构和 YAML 规范，Agent 规则、CLI、Notion 同步都无从谈起。
 02、03 是运行 Vault 所需的最小规则层，让 Agent 知道该怎么用、Git 该怎么把关。
 04、05 是工具层，明确建立在 01/02 之上。
-06 是 Plan.md 中明确标注的「后续扩展」，刻意放在最后，避免过早引入 Vector DB / MCP 等复杂度。
+06 原本是 Plan.md 标注的「后续扩展」，按设计应该等知识规模明显增长后再做——但用户在知情
+（Vault 当时 0 篇正式笔记）的情况下明确要求提前执行，所以已经完成，细节和"跳过触发条件"
+的说明见 [06-Future-Extensions.md](06-Future-Extensions.md)。
+07 建立在 02/03/04/05 之上（复用规则文档、Git 安全规则、`kb validate`/`kb curate`、
+`kb sync notion`），不依赖 06——会话结束自动化直接调 `kb` CLI，不强制经过 MCP Server。

@@ -38,13 +38,18 @@ Codex、Claude Code 等 Agent 开始任务前，应先读这个文件，再决�
 README）：
 
 ```bash
-kb search "PLL"      # 关键词检索
-kb read "PLL"         # 读取笔记
-kb related "PLL"       # 查相关笔记（WikiLink）
-kb status              # 查看 Vault 现状
+kb search "PLL"                        # 关键词检索
+kb semantic-search "怎么估计系统内部状态量"  # 语义检索（自然语言，不用精确关键词），需要先 kb index
+kb read "PLL"                          # 读取笔记
+kb related "PLL"                       # 查相关笔记（WikiLink）
+kb status                              # 查看 Vault 现状
 ```
 
-如果 `kb` 还没安装到当前环境，也可以直接用 ripgrep 兜底：
+模糊、概念性的问题优先用 `kb semantic-search`；确切知道关键词（术语、文件名、报错文本）用
+`kb search` 更直接。也可以通过 `kb mcp-server` 起的 Knowledge MCP Server 用标准 MCP 协议
+调用同一套工具，不必 shell 出去调 CLI。
+
+如果 `kb` 还没安装到当前环境，也可以直接用 ripgrep 兜底（只能做关键词检索）：
 
 ```bash
 rg -i "PLL" --glob '!Plans/**' --glob '!.git/**'
