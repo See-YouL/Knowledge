@@ -1,5 +1,5 @@
 ---
-status: pending
+status: done
 depends_on: [01-Vault-Scaffold]
 ---
 
@@ -15,31 +15,31 @@ depends_on: [01-Vault-Scaffold]
 
 ### 90-Agent/INDEX.md
 
-- [ ] 作为 Agent 任务开始时第一个要读的文件：列出各领域目录（`10~80`）的用途一句话说明、
+- [x] 作为 Agent 任务开始时第一个要读的文件：列出各领域目录（`10~80`）的用途一句话说明、
       指向 `01-Index/` 下各索引文件、指向 `KNOWLEDGE-RULES.md` / `TAXONOMY.md` /
       `DEVELOPMENT-RULES.md`。
 
 ### 90-Agent/KNOWLEDGE-RULES.md
 
-- [ ] 落地「知识生成流程」：完成任务 → 判断是否有长期可复用知识 → 提炼 → 生成结构化
+- [x] 落地「知识生成流程」：完成任务 → 判断是否有长期可复用知识 → 提炼 → 生成结构化
       Candidate → 放入 `00-Inbox/Agent-Candidates` → Curator 审核 → 更新/合并/新建/标记冲突/丢弃。
-- [ ] 落地禁止直接保存的内容清单：整段聊天记录、大量终端输出、临时调试信息、Agent 推理
+- [x] 落地禁止直接保存的内容清单：整段聊天记录、大量终端输出、临时调试信息、Agent 推理
       过程、未验证的猜测、密码/API Token/Cookie/Private Key 等敏感信息。
-- [ ] 落地「Agent 知识读取原则」：任务 → 读 `INDEX.md` → 识别领域 → 搜索相关知识 → 只加载
+- [x] 落地「Agent 知识读取原则」：任务 → 读 `INDEX.md` → 识别领域 → 搜索相关知识 → 只加载
       少量相关 Markdown → 执行任务；以及知识优先级顺序（当前项目明确规则 > 已验证项目知识 >
       verified 技术知识 > 官方文档 > 论文/实验资料 > experimental > Agent 推测）。
 
 ### 90-Agent/TAXONOMY.md
 
-- [ ] 落地知识类型定义与示例（`concept/procedure/troubleshooting/decision/reference/
+- [x] 落地知识类型定义与示例（`concept/procedure/troubleshooting/decision/reference/
       paper/project/experiment`，各配一个 Plan.md 中给出的示例）。
-- [ ] 落地 `domain`/`subdomain` 与 `10~80` 目录的对应关系，作为分类时的参考表。
+- [x] 落地 `domain`/`subdomain` 与 `10~80` 目录的对应关系，作为分类时的参考表。
 
 ### 90-Agent/DEVELOPMENT-RULES.md
 
-- [ ] 落地 Knowledge Curator 角色职责清单：Candidate 审核、去重、合并、分类、修正 YAML、
+- [x] 落地 Knowledge Curator 角色职责清单：Candidate 审核、去重、合并、分类、修正 YAML、
       建立 WikiLink、检查冲突知识、检查 Broken Links、检查重复笔记、维护 Canonical Note。
-- [ ] 落地「一个概念一个 Canonical Note」原则，明确反例（`PLL.md` / `PLL基础.md` /
+- [x] 落地「一个概念一个 Canonical Note」原则，明确反例（`PLL.md` / `PLL基础.md` /
       `PLL总结.md` / `PLL新版.md` / `PLL-final.md` 这类应避免的命名膨胀），要求更新已有笔记
       而不是新建变体。
 

@@ -18,8 +18,8 @@
 ## 当前状态
 
 `Plan.md` 已拆分为分阶段任务，见 [`Plans/README.md`](./Plans/README.md)。阶段 01（Vault 目录骨架、
-YAML frontmatter 规范、笔记模板）已完成；`90-Agent/` 下的规则文档（INDEX.md /
-KNOWLEDGE-RULES.md / TAXONOMY.md / DEVELOPMENT-RULES.md）尚待阶段 02 填充。
+YAML frontmatter 规范、笔记模板）与阶段 02（`90-Agent/` 规则文档：INDEX.md /
+KNOWLEDGE-RULES.md / TAXONOMY.md / DEVELOPMENT-RULES.md）已完成；阶段 03（Git 工作流规范）待启动。
 
 ## 给人类和 Agent 的入口提示
 

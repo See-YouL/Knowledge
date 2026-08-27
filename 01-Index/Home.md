@@ -17,7 +17,7 @@ Knowledge Vault 的人类阅读入口。
 
 ## 给 Agent 的提示
 
-Agent 任务开始时应优先读取 `90-Agent/INDEX.md`（建立中，见 [`Plans/02-Agent-Rules.md`](../Plans/02-Agent-Rules.md)），
+Agent 任务开始时应优先读取 [`90-Agent/INDEX.md`](../90-Agent/INDEX.md)，
 而不是从本页递归加载整个 Vault。
 
 ## 架构参考
