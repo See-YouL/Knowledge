@@ -16,7 +16,7 @@
 | 02 | [02-Agent-Rules.md](02-Agent-Rules.md) | 90-Agent 规则文档、知识生成流程、Knowledge Curator 职责、Agent 读取原则 | 01 | done |
 | 03 | [03-Git-Workflow.md](03-Git-Workflow.md) | Vault 的 Git 版本控制规范 | 01 | done |
 | 04 | [04-Knowledge-Engine-CLI.md](04-Knowledge-Engine-CLI.md) | 独立的 `kb` CLI 骨架（本地检索，不含 Notion） | 01, 02 | done |
-| 05 | [05-Notion-Sync.md](05-Notion-Sync.md) | Notion Database 设计 + 单向同步机制 | 01, 02, 04 | pending |
+| 05 | [05-Notion-Sync.md](05-Notion-Sync.md) | Notion Database 设计 + 单向同步机制 | 01, 02, 04 | done |
 | 06 | [06-Future-Extensions.md](06-Future-Extensions.md) | Vector DB / Embedding / Knowledge MCP Server（远期路线图，非近期执行范围） | 01–05 | pending |
 
 ## Status 含义

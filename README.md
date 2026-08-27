@@ -17,10 +17,14 @@
 
 ## 当前状态
 
-`Plan.md` 已拆分为分阶段任务，见 [`Plans/README.md`](./Plans/README.md)。阶段 01（Vault 目录骨架、
-YAML frontmatter 规范、笔记模板）、阶段 02（`90-Agent/` 规则文档）、阶段 03（Git 工作流规范）、
-阶段 04（`kb` CLI，代码在独立仓库 `/home/eric/Personal/KnowledgeEngine`）已完成；
-阶段 05（Notion 同步）待启动。
+`Plan.md` 已拆分为分阶段任务，见 [`Plans/README.md`](./Plans/README.md)。阶段 01～05 均已完成
+（Vault 骨架、`90-Agent/` 规则、Git 工作流、`kb` CLI、Notion 单向同步）；阶段 06（远期扩展：
+Embedding / Vector DB / MCP Server）明确保留为路线图，暂不执行。
+
+Notion 同步已经在真实工作区跑通：Database 建在「Knowledge知识库」页面下，设计细节见
+[`.knowledge/NOTION-SYNC.md`](./.knowledge/NOTION-SYNC.md)。目前 Vault 里还没有任何笔记把
+`sync.notion` 设为 `true`，所以 `kb sync notion` 现在运行不会同步任何东西——需要同步的笔记
+要自己在 frontmatter 里打开这个开关。
 
 ## 给人类和 Agent 的入口提示
 
