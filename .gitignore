@@ -1,0 +1,7 @@
+# Obsidian 本地会话状态：随每次打开/关闭面板变化，不是知识内容，
+# 追踪它只会在 git 历史里产生大量无意义噪音。
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# 其他工具在本目录下产生的本地缓存/配置，与知识库内容无关。
+.fw-context/
