@@ -18,8 +18,9 @@
 ## 当前状态
 
 `Plan.md` 已拆分为分阶段任务，见 [`Plans/README.md`](./Plans/README.md)。阶段 01（Vault 目录骨架、
-YAML frontmatter 规范、笔记模板）、阶段 02（`90-Agent/` 规则文档）、阶段 03（Git 工作流规范）
-已完成；阶段 04（Knowledge Engine CLI）待启动。
+YAML frontmatter 规范、笔记模板）、阶段 02（`90-Agent/` 规则文档）、阶段 03（Git 工作流规范）、
+阶段 04（`kb` CLI，代码在独立仓库 `/home/eric/Personal/KnowledgeEngine`）已完成；
+阶段 05（Notion 同步）待启动。
 
 ## 给人类和 Agent 的入口提示
 
@@ -28,4 +29,5 @@ YAML frontmatter 规范、笔记模板）、阶段 02（`90-Agent/` 规则文档
 - 日常阅读入口是 [`01-Index/Home.md`](./01-Index/Home.md)。
 - 新建知识笔记时，复制 [`90-Agent/Templates/Note-Template.md`](./90-Agent/Templates/Note-Template.md)，
   YAML frontmatter 字段说明见 [`90-Agent/Templates/Frontmatter-Spec.md`](./90-Agent/Templates/Frontmatter-Spec.md)。
-- 后续 `90-Agent/INDEX.md` 建成后，Agent 执行任务前应优先读取该文件，而不是递归加载整个 Vault（原则见 `Plan.md` 的「Agent 知识读取原则」一节）。
+- Agent 执行任务前应优先读取 [`90-Agent/INDEX.md`](./90-Agent/INDEX.md)，而不是递归加载整个 Vault（原则见 `Plan.md` 的「Agent 知识读取原则」一节）。
+- 检索/整理知识优先用 `kb` CLI（`kb search` / `kb read` / `kb related` / `kb capture` / `kb curate` / `kb validate` / `kb status`），代码在 `/home/eric/Personal/KnowledgeEngine`，用法见该仓库的 README。

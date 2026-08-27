@@ -34,8 +34,17 @@ Codex、Claude Code 等 Agent 开始任务前，应先读这个文件，再决�
 
 ## 第四步：搜索已有知识
 
-当前阶段（见 [`Plans/README.md`](../Plans/README.md)）尚未提供 `kb search` CLI（阶段 04），
-先用 `ripgrep` 在 Vault 内检索关键词，例如：
+优先用 `kb` CLI（代码在独立仓库 `/home/eric/Personal/KnowledgeEngine`，用法见该仓库
+README）：
+
+```bash
+kb search "PLL"      # 关键词检索
+kb read "PLL"         # 读取笔记
+kb related "PLL"       # 查相关笔记（WikiLink）
+kb status              # 查看 Vault 现状
+```
+
+如果 `kb` 还没安装到当前环境，也可以直接用 ripgrep 兜底：
 
 ```bash
 rg -i "PLL" --glob '!Plans/**' --glob '!.git/**'
