@@ -517,6 +517,69 @@ git status
 
 禁止 Agent 在未经明确授权时进行危险的大规模删除。
 
+# Agent 会话结束自动化
+
+## 目标
+
+Codex、Claude Code 关闭会话时，自动触发一轮知识整理（Knowledge Curator）和 Notion 同步，
+不需要用户每次手动记得去跑 `kb curate` / `kb sync notion`。
+
+## 触发机制
+
+Claude Code 和 Codex CLI 都提供会话结束时执行任意命令的 Hook，事件名分别是
+`SessionEnd`（Claude Code，`settings.json` 里的 `hooks.SessionEnd`）和 `session-end`
+（Codex CLI，`hooks.json`）。两边都指向同一个共享脚本，而不是各自实现一套触发逻辑——
+保证以后如果换掉 Codex 或 Claude Code 中的任意一个，只需要替换触发层，自动化逻辑本身
+不用重写（对应「当前任务要求」里"所有组件尽量解耦"的原则）。
+
+生效范围：**全局**——不限定在 Knowledge Vault 这一个项目里，任意项目下关闭 Claude Code
+或 Codex 会话都会触发这个 Hook。共享脚本内部固定指向 Knowledge Vault 路径
+（`KB_VAULT_PATH`），跟触发它的会话当时在哪个项目目录无关。
+
+## 自动整理的动作范围
+
+Hook 触发后，共享脚本依次执行：
+
+1. **先做一次廉价检查**：Vault 里有没有东西值得处理（`00-Inbox/Agent-Candidates` 是否
+   非空、`git status` 是否有未提交改动）。没有就直接退出，不浪费一次模型调用——绝大多数
+   跟 Vault 无关的会话关闭都会在这一步就结束。
+2. **有东西要处理时，才拉起一次无交互的 Agent 调用**（`claude -p` 或 `codex exec`，用哪个
+   是实现细节，只要固定用一个），指令直接复用已有的 `90-Agent/KNOWLEDGE-RULES.md` 和
+   `90-Agent/DEVELOPMENT-RULES.md`（不重新定义一套规则），让它扮演 Knowledge Curator：
+   审核 `00-Inbox/Agent-Candidates`、去重、合并、修正 YAML、建 WikiLink、维护
+   Canonical Note——即「知识生成流程」一节已经定义的判断逻辑，只是从"人工触发"变成
+   "自动触发"。内容冲突仍然按现有规则标记待人工审核，不强行覆盖。
+3. `kb validate` + `kb curate` 兜底检查一遍。
+4. `kb sync notion`（只同步 `sync.notion: true` 的笔记，机制不变，见「Notion 同步机制」）。
+5. 如果有改动：`git add` + `git commit`，提交信息明确标注是自动整理（例如
+   `chore(auto-curate): session-end 自动知识整理`），方便日后在 `git log` 里筛选、或者
+   单独 `git revert` 某一次自动提交。**只本地提交，不 push**——跟现有 Git 规则一致
+   （见「Git」一节：Push 属于需要用户明确授权的操作）。
+
+## 安全阀（即使全自动，也要保留的边界）
+
+- 单次自动整理如果触发了 `90-Agent/DEVELOPMENT-RULES.md` 定义的"大规模修改"阈值（改动
+  超过 5 篇正式笔记、涉及目录结构调整、批量删除、改动 90-Agent 规则文档本身），这一次
+  **不自动 commit**，改动留在工作区，`git status` 能看到，等用户自己确认后再提交——防止
+  自动化在无人看着的时候做出大范围、难以追溯的改动。
+- 敏感信息禁止清单（密码/Token/Cookie/Private Key/聊天记录原文等，见「知识生成流程」）
+  在自动模式下同样生效，不因为是自动触发就放宽。
+- 并发保护：可能有多个 Claude Code / Codex 会话先后关闭，共享脚本需要一个简单的文件锁
+  （例如 `.knowledge/session-end.lock`），避免多个自动整理同时跑、互相踩到对方改动或
+  产生冲突的 git 提交。
+- Hook 本身通常有执行超时（Claude Code、Codex 都对 SessionEnd Hook 设了超时），一次完整
+  的模型调用可能跑不完；脚本要能优雅处理（例如异步执行、下次会话开始时报告上次是否正常
+  完成），不能让超时导致改到一半的不一致状态。这属于实现阶段要解决的细节，这里不预先
+  下定论。
+
+## 与既有规则的关系
+
+这是 `90-Agent/DEVELOPMENT-RULES.md` 里"只在用户明确要求时才 commit"规则的一个**明确
+例外**：用户已经明确同意这一条自动化流水线可以本地自动提交。除了这条流水线之外，Agent
+在正常交互会话里改动 Vault 仍然遵循原有规则——不能因为这里开了口子，就在其他场景也擅自
+commit。真正落地实现时，需要把这条例外补写回 `90-Agent/DEVELOPMENT-RULES.md`，让规则
+文档和实际行为保持一致（属于对应执行阶段的任务，不在本次 Plan.md 更新范围内）。
+
 # 后续扩展
 
 第一阶段不要直接引入复杂 Vector Database。
