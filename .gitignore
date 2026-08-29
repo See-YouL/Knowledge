@@ -5,3 +5,8 @@
 
 # 其他工具在本目录下产生的本地缓存/配置，与知识库内容无关。
 .fw-context/
+
+# 阶段 07（会话结束自动化）的本机运行状态：consent 记录按 session id 隔离、会话结束即删，
+# 日志只用于排查这一次流水线，都不是知识内容，不入库。
+.knowledge/session-consent/
+.knowledge/session-logs/

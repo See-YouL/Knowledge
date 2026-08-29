@@ -36,7 +36,29 @@ Knowledge Curator 审核（见 DEVELOPMENT-RULES.md）
 判断"是否有长期价值"的粗略标准：这条信息在未来类似任务中会被再次用到吗？如果只对
 当前这一次任务有意义（例如某次具体的报错堆栈、某个临时环境变量），就不是长期知识。
 
-## 二、禁止直接保存的内容
+## 二、会话级同意开关（只管当前这一次对话）
+
+每次 Codex / Claude Code 开启新会话时，Hook 会让 Agent 在第一条回复的开头问一次：
+「这次对话如果产生了值得长期保留的知识，结束时要不要自动整理保存？」用户的回答记在
+`.knowledge/session-consent/<session_id>.json`，**只对当前这一次会话生效**，不替上一次或
+下一次对话做决定。
+
+- 当前会话答**「是」**：按上面第一节的流程，主动把有长期价值的内容提炼成 Candidate 写进
+  `00-Inbox/Agent-Candidates/`。会话结束时自动整理、校验、同步并在本地提交（见
+  [`DEVELOPMENT-RULES.md`](DEVELOPMENT-RULES.md) 的 Git 工作流规则）。
+- 当前会话答**「否」**，或者根本没问到答案：这次对话**不主动写 Candidate**，会话结束时
+  也不动 Vault。
+
+这个开关只管「要不要主动帮你存」，不改变别的任何规则：
+
+- 用户随时可以手动 `kb capture` 写 Candidate，不受开关影响。
+- 下面第三节「禁止直接保存的内容」照常生效——答了「是」不等于放宽敏感信息和原始输出的限制。
+- 会话结束时的自动整理，仍然受 `DEVELOPMENT-RULES.md`「什么算大规模修改」的阈值约束：
+  命中阈值就把改动留在工作区等人工确认，不自动提交。
+
+分阶段执行记录见 [`Plans/07-Session-End-Automation.md`](../Plans/07-Session-End-Automation.md)。
+
+## 三、禁止直接保存的内容
 
 以下内容不允许原样堆进知识库（Candidate 或正式笔记都不行）：
 
@@ -55,7 +77,7 @@ Knowledge Curator 审核（见 DEVELOPMENT-RULES.md）
 修复方法"），而不是保留原始输出或推理过程。敏感信息（密码/Token/Key/Cookie）无论如何都
 不写入 Vault，即使是作为"如何配置"的示例也要用占位符替代。
 
-## 三、Agent 知识读取原则
+## 四、Agent 知识读取原则
 
 不应在每次任务开始时递归加载整个 Vault：
 

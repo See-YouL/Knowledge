@@ -18,7 +18,7 @@
 | 04 | [04-Knowledge-Engine-CLI.md](04-Knowledge-Engine-CLI.md) | 独立的 `kb` CLI 骨架（本地检索，不含 Notion） | 01, 02 | done |
 | 05 | [05-Notion-Sync.md](05-Notion-Sync.md) | Notion Database 设计 + 单向同步机制 | 01, 02, 04 | done |
 | 06 | [06-Future-Extensions.md](06-Future-Extensions.md) | 本地语义检索（Embedding + Rerank）+ Knowledge MCP Server（用户主动要求提前做，非规模驱动） | 01–05 | done |
-| 07 | [07-Session-End-Automation.md](07-Session-End-Automation.md) | 会话一开始就问"这次要不要自动保存知识"，只管这一次，结束时按当次回答执行 | 02, 03, 04, 05 | pending |
+| 07 | [07-Session-End-Automation.md](07-Session-End-Automation.md) | 会话一开始就问"这次要不要自动保存知识"，只管这一次，结束时按当次回答执行 | 02, 03, 04, 05 | done |
 
 ## Status 含义
 
