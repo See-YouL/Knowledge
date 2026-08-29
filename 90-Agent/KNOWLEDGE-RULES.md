@@ -44,7 +44,8 @@ Knowledge Curator 审核（见 DEVELOPMENT-RULES.md）
 下一次对话做决定。
 
 - 当前会话答**「是」**：按上面第一节的流程，主动把有长期价值的内容提炼成 Candidate 写进
-  `00-Inbox/Agent-Candidates/`。会话结束时自动整理、校验、同步并在本地提交（见
+  `00-Inbox/Agent-Candidates/`。会话结束时还会审计经过过滤和脱敏的本次 transcript，补建
+  会话内漏掉的 Candidate，再自动整理、校验、同步并在本地提交（见
   [`DEVELOPMENT-RULES.md`](DEVELOPMENT-RULES.md) 的 Git 工作流规则）。
 - 当前会话答**「否」**，或者根本没问到答案：这次对话**不主动写 Candidate**，会话结束时
   也不动 Vault。

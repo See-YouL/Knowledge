@@ -552,18 +552,18 @@ session id 一起记到 `.knowledge/session-consent/<session_id>.json`。这一�
 "否"，这次对话里 Agent 不主动写 Candidate（用户仍然可以随时手动 `kb capture`，这条开关
 只管"要不要主动帮你存"）。
 
-### 第三段：SessionEnd（无交互，只做机械收尾）
+### 第三段：SessionEnd（无交互，补偿提炼并收尾）
 
 会话关闭时，共享脚本读取 `.knowledge/session-consent/<session_id>.json`：
 
 - 没有记录，或者是"否"：直接清理、退出，不动 Vault 任何东西。
-- 是"是"，且这次会话确实新产生了 Candidate（廉价检查：`00-Inbox/Agent-Candidates` 里有
-  没有新文件）：拉起一次无交互 Agent 调用（`claude -p` 或 `codex exec`，固定用一个），
-  指令复用 `90-Agent/KNOWLEDGE-RULES.md`/`DEVELOPMENT-RULES.md`，只处理这次新增的
-  Candidate（不需要重新读整份历史对话）——去重、合并、修正 YAML、建 WikiLink，冲突就
+- 是"是"：无论会话内是否已经产生 Candidate，都拉起一次无交互 Agent 调用（固定用
+  `claude -p`）。先把本次 transcript 过滤成只含用户和 Assistant 自然语言的脱敏视图，排除
+  系统提示、推理、工具调用和终端输出；Agent 据此审计漏记知识并补建 Candidate，再复用
+  `90-Agent/KNOWLEDGE-RULES.md`/`DEVELOPMENT-RULES.md` 去重、合并、修正 YAML、建 WikiLink，冲突就
   标记待人工审核，不强行覆盖 → `kb validate` + `kb curate` 兜底 → `kb sync notion` →
   有改动就 `git commit`（本地，不 push，消息标注是这次确认后的整理）。
-- 是"是"但没有新 Candidate：什么都不用整理，直接清理、退出。
+- 审计后确认没有长期知识：不修改 Vault，记录结果后清理、退出。
 
 最后清掉这次会话的 consent 记录文件，不留状态。
 

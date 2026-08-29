@@ -15,7 +15,7 @@ created: 2026-08-29
 updated: 2026-08-29
 confidence: medium
 sync:
-  notion: false
+  notion: true
 ---
 
 # 多字段关联参数的 EEPROM 掉电安全事务提交模式

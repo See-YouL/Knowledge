@@ -81,6 +81,12 @@
 `--pull`：反方向，只读取 Notion 里已同步页面的 `Review Status/Favorite/Priority/Rating/
 Next Review Date` 五个属性，写回对应笔记 frontmatter，正文和其余字段不动。
 
+### SessionEnd 自动整理
+
+会话结束流水线新建并晋升到 `10~80` 目录的正式笔记，会在校验和同步前确定性地设置
+`sync.notion: true`。该规则只作用于本次流水线新建的正式笔记；Candidate、人工新建笔记、
+合并进既有笔记以及既有的 `sync.notion: false` 设置都不会被自动改写。
+
 ## WikiLink 处理
 
 正文里的 `[[标题]]` 在转换成 Notion blocks 时：

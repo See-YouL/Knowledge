@@ -28,14 +28,15 @@ MCP。
       在过程中主动把长期价值内容写成 Candidate；是"否"则这次对话不主动写（用户仍可以
       随时手动 `kb capture`）。→ 新增「二、会话级同意开关」一节，原二/三节顺延为三/四。
 - [x] 写共享逻辑，**SessionEnd 端**：读取 `.knowledge/session-consent/<session_id>.json`。
-      没有记录或是"否" → 直接清理退出，不动 Vault。是"是"且这次会话确实新增了 Candidate
-      （廉价检查 `00-Inbox/Agent-Candidates` 有没有新文件）→ 拉起一次无交互 Agent 调用
-      （固定用 `claude -p`），复用
-      `90-Agent/KNOWLEDGE-RULES.md`/`DEVELOPMENT-RULES.md` 只处理这次新增的 Candidate
+      没有记录或是"否" → 直接清理退出，不动 Vault。是"是" → 记录 `transcript_path` 并拉起
+      一次无交互 Agent 调用（固定用 `claude -p`）；先从仅含用户/Assistant自然语言、已排除
+      系统提示/推理/工具输出并脱敏的 transcript 视图中补建漏掉的 Candidate，再复用
+      `90-Agent/KNOWLEDGE-RULES.md`/`DEVELOPMENT-RULES.md` 处理本次 Candidate
       （去重/合并/修 YAML/建 WikiLink，冲突就标记待人工审核）→ `kb validate` +
       `kb curate` 兜底 → `kb sync notion` → 有改动就 `git commit`（本地，不 push，消息
-      标注是这次确认后的整理）。是"是"但没有新 Candidate → 直接清理退出。最后清掉这次
-      会话的 consent 记录文件。→ `kb session end` + `kb session run`（`kb/session_pipeline.py`）。
+      标注是这次确认后的整理）。审计确认没有长期知识 → 不修改 Vault、记录结果后退出。
+      最后清掉这次会话的 consent 记录文件。→ `kb session end` + `kb session run`
+      （`kb/session_pipeline.py`）。
 - [x] Claude Code 接入：`hooks.SessionStart` + `hooks.SessionEnd`（`~/.claude/settings.json`，
       全局生效）。
 - [x] Codex CLI 接入：`~/.codex/hooks.json` 的 `SessionStart` + `SessionEnd`。
@@ -114,7 +115,7 @@ Hook 触发验证：
 | 场景 | 结果 |
 |---|---|
 | consent=是 + 会话中产生 Candidate | Candidate 被整理成 `60-System/` 下的正式笔记、Inbox 排空、validate 通过、只提交本次路径；`git revert HEAD` 干净撤销 ✓ |
-| consent=是 + 无新 Candidate | 关闭后无改动、无提交、consent 记录已删 ✓ |
+| consent=是 + 无新 Candidate | SessionEnd 仍启动 transcript 审计；无长期知识才无改动退出 ✓ |
 | consent=否（中文"否"也识别） | 关闭后不整理、不提交 ✓ |
 | 未回答（consent 为空） | 关闭后直接清理退出 ✓ |
 | 两个不同 session id | consent 文件按 session id 隔离，互不影响 ✓ |
